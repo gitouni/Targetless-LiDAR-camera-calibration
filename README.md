@@ -58,3 +58,10 @@ Please ensure your OpenMVG has been installed propoerly before this step. Sequen
 # Step3: Estimate initial LiDAR poses with RANSAC (RANReg mentioned in our paper)
 
 Please ensure your Open3D has been installed properly in your python environment before this step.
+```bash
+python multiway_reg.py --basedir xxx --res_dir xxx --input_dr data/proc_pcd 
+```
+The above command will implement Multiway Registration using RANSAC. Here are some explanations to main args:
+* basedir: basic name of resultant directories, just name it as you wish
+* res_dir: resultant directory containing a Open3D PoseGraph
+* input_dir: directory containing all the preprocessed pcd files
