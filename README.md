@@ -16,6 +16,7 @@
 # Dependence
 * [OpenMVG](https://github.com/openMVG/openMVG)
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
+* [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
 * [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
 * [Sklearn](https://scikit-learn.org/stable/) (pip install scikit-learn)
 
@@ -98,6 +99,8 @@ python clique_split_refine.py --input_dir data/proc_pcd --clique_file /path/to/c
 ```
 Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_ransac.py](TL_ransac.py) to avoid possible issues.
 
-3. Now each subgraph has been refined, we need to integrate them together.
+3. Now each subgraph has been refined, we need to integrate them together. Please ensure your MinkowskiEngine has been properly installed before this step.
+
+Downlaod `kitti_v0.3.pth` from [https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth) and put it to [FCGF](FCGF) dir.
 
 
