@@ -40,7 +40,7 @@ This preprocess pipeline is accelearted by OpenMP. When it finishes, you can use
 
 # Step 2: Estimate image poses using OpenMVG
 
-Please ensure your OpenMVG has been installed propoerly before this step. SequentialSfM engine is suitable for this task empircally. To implement, please ensure you have properly installed this library and refer to `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py`. After you finished this step, the resultant `sfm_data.json` can be found in the given directory with extrinsic matrices (poses to the world coordinate).
+Please ensure your OpenMVG has been installed propoerly before this step. SequentialSfM engine is suitable for this task empircally. To implement, please refer to `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py`. After you finished this step, the resultant `sfm_data.json` can be found in the given directory with extrinsic matrices (poses to the world coordinate).
 
 <details>
  <summary> If you are a beginner of OpenMVG or need troubleshooting</summary>
