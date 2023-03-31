@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-set(CMAKE_BUILD_TYPE "Debug")
+cmake_minimum_required(VERSION 3.1)
+set(CMAKE_BUILD_TYPE "Release")
 project(cpp_tools)
-# set(PCL_DIR "/usr/include/pcl-1.12")
+# set(PCL_DIR "/usr/include/pcl-1.12") # set your PCL Path manually if you met PCL_NOT_FOUND ERROR
 find_package(PCL REQUIRED)
 find_package(OpenMP REQUIRED)
 include_directories(include
@@ -12,15 +12,7 @@ add_executable(pcl_preprocess preprocess.cpp)
 target_link_libraries(pcl_preprocess
      ${PCL_LIBRARIES}
      )
-add_executable(ransac_fit ransac_fit.cpp)
-target_link_libraries(ransac_fit
-    ${PCL_LIBRARIES}
-    )
-# add_executable(viewer view.cpp)
-# target_link_libraries(viewer
-#     ${PCL_LIBRARIES}
-#     )
-# add_executable(pcl_bplines curve.cpp)
-# target_link_libraries(pcl_bplines
-#      ${PCL_LIBRARIES}
-#      )
+add_executable(viewer view.cpp)
+target_link_libraries(viewer
+     ${PCL_LIBRARIES}
+     )
