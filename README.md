@@ -42,7 +42,7 @@ This preprocess pipeline is accelearted by OpenMP. When it finishes, you can use
 
 # Step 2: Estimate image poses using OpenMVG
 
-Please ensure your OpenMVG has been installed propoerly before this step. SequentialSfM engine is suitable for this task empircally. To implement, please refer to `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py`. After you finished this step, the resultant `sfm_data.json` can be found in the given directory with extrinsic matrices (poses to the world coordinate).
+Please ensure your OpenMVG has been installed propoerly before this step. SequentialSfM engine is suitable for this task empircally. Run `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py` with input args `input_dir` and `output_dir`. After you finished this step, the resultant `sfm_data.json` can be found in `path/to/output_dir/reconstruction_sequential/`.
 
 <details>
  <summary> If you are a beginner of OpenMVG or need troubleshooting</summary>
@@ -57,7 +57,7 @@ Please ensure your OpenMVG has been installed propoerly before this step. Sequen
  
 </details>
 
-# Step3: Estimate initial LiDAR poses with RANSAC (RANReg mentioned in our paper)
+# Step 3: Estimate initial LiDAR poses with RANSAC (RANReg mentioned in our paper)
 
 Please ensure your Open3D has been installed properly in your python environment before this step.
 ```bash
@@ -82,7 +82,7 @@ Please wait a few minutes. This process is the most time-consuming part in our f
  
 </details>
 
-# Step4: Cluster Extraction and Integration (CEI)
+# Step 4: Cluster Extraction and Integration (CEI)
 1. To start with, use RANSAC hand-eye calibration to extract inlier LiDAR poses:
 ```bash
 python TL_ransac.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_raw.json
@@ -94,13 +94,51 @@ This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_d
 |![](doc/recon_raw_graph.png)|![](doc/recon_clique.png)|
 
 2. Now the raw graph have been splited into several inlier subgraphs. At the next stage, we refine each subgraph with Multiway Registration:
-```py
+```bash
 python clique_split_refine.py --input_dir data/proc_pcd --clique_file /path/to/clique_ranreg.json --init_pose_graph ranreg_raw.json
 ```
-Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_ransac.py](TL_ransac.py) to avoid possible issues.
+Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_ransac.py](TL_ransac.py) to avoid possible issues. You will get `clique_desc_ranreg.json` and a `clique_ranreg` folder after this command. Do not move the folder. It must be placed in the same directory of `clique_desc_ranreg.json`.
 
 3. Now each subgraph has been refined, we need to integrate them together. Please ensure your MinkowskiEngine has been properly installed before this step.
 
-Downlaod `kitti_v0.3.pth` from [https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth) and put it to [FCGF](FCGF) dir.
+Downlaod FCGF model from [FCGF model zoo](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth) and put it to [FCGF](FCGF) dir. Rename it to `kitti_v0.3.pth`.
 
+```bash
+python clique_merge_refine.py --input_dir data/proc_pcd --clique_desc clique_desc_ranreg.json --feat_method FCGF
+```
+This process (Clique Integration) consolidate each subgraph into one. Don't forget to ensure the `basedir` and `method` variables be same with the above files. The resultant figure is:
 
+<img src="https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/recon_final_graph.png" width="600">
+
+Meanwhile, you will get `ranreg_union.json`. Use [reconstruction.py](reconstruction.py) to view it in Open3D Viewer and generate `ranreg_union.pcd`, the merged point cloud from inlier laser scans. 
+
+```bash
+python reconstruction.py --input_dir data/proc_pcd --pose_graph ranreg_union.json --clique_file res/work_dir/clique_ranreg.json
+```
+
+# Step 5: Hand-eye calibration
+
+Conduct hand-eye calibration among inliers.
+```bash
+python TL_solve.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_union.json --save_sol res/work_dir/ranreg_sol.npz
+```
+This process generates the calibration results with the input of inlier cmaera and lidar poses in `ranreg_sol.npz`
+NB: use `--gt_TCL_file` if you have a ground-truth extrinsic matrix, or just omit it and the output evaluation.
+
+# Step 6: Scene registration
+
+Please ensure your OpenMVS has been properly installed and `undistorted_images` and `scene.mvs` has been generated in `path/to/output_dir/reconstruction_sequential/.` dir during your Step 2. 
+1. Densify Point Cloud
+```bash
+cd OpenMVS_build/build/bin
+./DensifyPointCloud /path/to/scene.mvs -w /path/to/work_dir/open_mvs/
+```
+This process densifies the reconstruction of SfM and generate a dense color point cloud using undistored images.
+
+After it finished, you should see `scene_dense.ply` and `scene_dense.mvs` in `path/to/reconstruction_sequential/`. You can also use `./Viewer /path/to/scene_dense.mvs` to check it.
+
+2. Scene Registration
+```bash
+python Reg7D.py --camera_pcd /path/to/scene_dense.ply --lidar_pcd /path/to/ranreg_union.pcd --TL_init /path/to/TL_ranreg_sol.npz
+```
+The [Reg7D.py](Reg7D.py] script register the camera reconstruction to the lidar one using the intial sim3 transformation solved from Step 5. You will get `ranreg_tcl.txt`, which is the final result of our method.
