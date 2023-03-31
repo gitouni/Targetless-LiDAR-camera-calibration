@@ -45,7 +45,7 @@ Please ensure your OpenMVG has been installed propoerly before this step. Sequen
 <details>
  <summary> If you are a beginner of OpenMVG or need troubleshooting</summary>
  
- If you are a beginner of OpenMVG, please unfold ths <detail> and follow our intructions and use the [doc/SfM_SequentialPipeline.py](doc/SfM_SequentialPipeline.py) file to implement SfM.
+ If you are a beginner of OpenMVG, please follow our intructions to use the [doc/SfM_SequentialPipeline.py](doc/SfM_SequentialPipeline.py) file to implement SfM.
  
  To use it, you need to follow some simple steps:
  * replace all `path/to/OpenMVG` strings in the script with your specific OpenMVG installation directory.
