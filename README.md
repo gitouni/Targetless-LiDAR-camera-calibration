@@ -18,7 +18,7 @@
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [Open3D](https://github.com/isl-org/Open3D)  (pip install open3d)
 
-# Step 1: Prepare Image and LiDAR data:
+# Step 1: Prepare Image and LiDAR data
 
 You need to add sychronized image and LiDAR data to the respective directories first.
 ```bash
@@ -38,9 +38,9 @@ make
 ```
 This preprocess pipeline is accelearted by OpenMP. When it finishes, you can use `./view xxx.cpd` to verify whether the pcd has been correctly filtered.
 
-# Step 2: Estimate image poses using OpenMVG:
+# Step 2: Estimate image poses using OpenMVG
 
-OpenMVG is a powwerful SfM that is capable of camera poses estimation as well as structure recovery. SequentialSfM engine is suitable for this task empircally. To implement, please ensure you have properly installed this library and refer to `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py`. After you finished this step, the resultant `sfm_data.json` can be found in the given directory with extrinsic matrices (poses to the world coordinate).
+Please ensure your OpenMVG has been installed propoerly before this step. SequentialSfM engine is suitable for this task empircally. To implement, please ensure you have properly installed this library and refer to `path/to/OpenMVG/build/software/SfM/SfM_SequentialPipeline.py`. After you finished this step, the resultant `sfm_data.json` can be found in the given directory with extrinsic matrices (poses to the world coordinate).
 
 <details>
  <summary> If you are a beginner of OpenMVG or need troubleshooting</summary>
@@ -54,3 +54,7 @@ OpenMVG is a powwerful SfM that is capable of camera poses estimation as well as
  * After it finishes running, you will find a `sfm_data.json` file in `path/to/output_dir/reconstruction_sequential/`.
  
 </details>
+
+# Step3: Estimate initial LiDAR poses with RANSAC (RANReg mentioned in our paper)
+
+Please ensure your Open3D has been installed properly in your python environment before this step.
