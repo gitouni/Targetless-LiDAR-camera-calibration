@@ -141,4 +141,7 @@ After it finished, you should see `scene_dense.ply` and `scene_dense.mvs` in `pa
 ```bash
 python Reg7D.py --camera_pcd /path/to/scene_dense.ply --lidar_pcd /path/to/ranreg_union.pcd --TL_init /path/to/TL_ranreg_sol.npz
 ```
-The [Reg7D.py](Reg7D.py] script register the camera reconstruction to the lidar one using the intial sim3 transformation solved from Step 5. You will get `ranreg_tcl.txt`, which is the final result of our method.
+The [Reg7D.py](Reg7D.py) script aligns the camera reconstruction to the lidar one using the intial sim3 transformation solved from Step 5. You will get `ranreg_tcl.txt`, which is the final result of our method. The comparison before and after Scene Registration is shown below:
+|Before|After|
+|---|---|
+|![](doc/reg_HE_full.png)|![](doc/reg_7DOF.png)|
