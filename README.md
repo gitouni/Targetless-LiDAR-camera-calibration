@@ -1,7 +1,11 @@
 # Targetless LiDAR camera calibration
-Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR"
+## Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR"
+![](doc/Abstract.jpg)
+
 * preprint: [https://doi.org/10.36227/techrxiv.22155149](https://doi.org/10.36227/techrxiv.22155149)
-* All codes will be available soon after the publication of this paper.
+* All codes will be available soon after the IEEE publication.
+* All advices, citations, support will be acknowledged and appreciated.
+* Feel free to propose any issues you met.
 
 # Environment
 * Ubuntu 18.04/20.04 or Windows 10
@@ -44,7 +48,7 @@ OpenMVG is a powwerful SfM that is capable of camera poses estimation as well as
  If you are a beginner of OpenMVG, please unfold ths <detail> and follow our intructions and use the [doc/SfM_SequentialPipeline.py](doc/SfM_SequentialPipeline.py) file to implement SfM.
  
  To use it, you need to follow some simple steps:
- * replace all `path/to/OpenMVG` strings with your specific OpenMVG installation directory.
+ * replace all `path/to/OpenMVG` strings in the script with your specific OpenMVG installation directory.
  * give the intrinsic parameters of your camera. You may put it into a ASCII-coded file or just modify the `intrinsic` variable in the above python script. Fortunately, coarse instrinsic paramters are also OK, as SfM will estimate them simultaneously.
  * run the command `python Sfm_SequentialPipeline.py input_dir output_dir ins_file`. The `input_dir` is the directory containing all your raw images while the `output_dir` is the directory you designate to store all resultant files of OpenMVG. Note that if you choose to modify the `intrinsic` variable in the last step. Please just leave out the third argument `ins_file`.
  * After it finishes running, you will find a `sfm_data.json` file in `path/to/output_dir/reconstruction_sequential/`.
