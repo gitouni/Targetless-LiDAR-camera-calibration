@@ -16,7 +16,8 @@
 # Dependence
 * [OpenMVG](https://github.com/openMVG/openMVG)
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
-* [Open3D](https://github.com/isl-org/Open3D)  (pip install open3d)
+* [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
+* [Sklearn](https://scikit-learn.org/stable/) (pip install scikit-learn)
 
 # Step 1: Prepare Image and LiDAR data
 
@@ -61,11 +62,14 @@ Please ensure your Open3D has been installed properly in your python environment
 ```bash
 python multiway_reg.py --basedir xxx --res_dir xxx --input_dr data/proc_pcd 
 ```
+After that, you will see `ranreg_raw.json` in `res_dir/basedir`, which is a Open3D PoseGraph with initial estimated LiDAR poses.
+
 The above command will implement Multiway Registration using RANSAC. Here are some explanations to main args:
 * basedir: basic name of resultant directories, just name it as you wish
 * res_dir: resultant directory containing a Open3D PoseGraph
 * input_dir: directory containing all the preprocessed pcd files
 
+Please wait a few minutes. This process is the most time-consuming part in our framework.
 <details>
  <summary> Modification on other args</summary>
  
@@ -76,3 +80,24 @@ The above command will implement Multiway Registration using RANSAC. Here are so
  * ne_method: we implement normal estimation different from Open3D. `o3d` indicates using the original Open3D Normal Estimation, but it performs worse in low-resolution laser scans.
  
 </details>
+
+# Step4: Cluster Extraction and Integration (CEI)
+1. To start with, use RANSAC hand-eye calibration to extract inlier LiDAR poses:
+```bash
+python TL_ransac.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_raw.json
+```
+This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_dir/clique_ranreg.json`. The `work_dir` parameter is manually set in [TL_ransac.py](TL_ransac.py). To vividly show this process, we display two pictures below. For principles, please see Section IV A-B in our paper.
+
+|Raw graph (ranreg_raw.json)| Clique Extraction (clique_ranreg.json)|
+|---|---|
+|![](doc/recon_raw_graph.png)|![](doc/recon_clique.png)|
+
+2. Now the raw graph have been splited into several inlier subgraphs. At the next stage, we refine each subgraph with Multiway Registration:
+```py
+python clique_split_refine.py --input_dir data/proc_pcd --clique_file /path/to/clique_ranreg.json --init_pose_graph ranreg_raw.json
+```
+Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_ransac.py](TL_ransac.py) to avoid possible issues.
+
+3. Now each subgraph has been refined, we need to integrate them together.
+
+
