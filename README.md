@@ -14,4 +14,24 @@ Official Implementation of the paper "Targetless Extrinsic Calibration of Camera
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [Open3D](https://github.com/isl-org/Open3D)  (pip install open3d)
 
-# Step 1
+# Step 1: Prepare Image and LiDAR data:
+
+You need to add sychronized image and LiDAR data to the respective directories first.
+```bash
+mkdir data && cd data
+mkdir img
+mkdir proc
+```
+
+Use our cpp tools to preprocess LiDAR data. (Remove the backward 180 degrees of each LiDAR scan)
+
+```bash
+cd cpp
+mkdir build && cd build
+cmake ..
+make
+./preprocess ../../data/pcd ../../data/proc_pcd
+```
+
+
+ 
