@@ -85,9 +85,9 @@ Please wait a few minutes. This process is the most time-consuming part in our f
 # Step 4: Cluster Extraction and Integration (CEI)
 1. To start with, use RANSAC hand-eye calibration to extract inlier LiDAR poses:
 ```bash
-python TL_ransac.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_raw.json
+python TL_solve_ransac.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_raw.json
 ```
-This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_dir/clique_ranreg.json`. The `work_dir` parameter is manually set in [TL_ransac.py](TL_ransac.py). To vividly show this process, we display two pictures below. For principles, please see Section IV A-B in our paper.
+This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_dir/clique_ranreg.json`. The `work_dir` parameter is manually set in [TL_solve_ransac.py](TL_solve_ransac.py). To vividly show this process, we display two pictures below. For principles, please see Section IV A-B in our paper.
 
 |Raw graph (ranreg_raw.json)| Clique Extraction (clique_ranreg.json)|
 |---|---|
@@ -97,11 +97,11 @@ This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_d
 ```bash
 python clique_split_refine.py --input_dir data/proc_pcd --clique_file /path/to/clique_ranreg.json --init_pose_graph ranreg_raw.json
 ```
-Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_ransac.py](TL_ransac.py) to avoid possible issues. You will get `clique_desc_ranreg.json` and a `clique_ranreg` folder after this command. Do not move the folder. It must be placed in the same directory of `clique_desc_ranreg.json`.
+Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_solve_ransac.py](TL_solve_ransac.py) to avoid possible issues. You will get `clique_desc_ranreg.json` and a `clique_ranreg` folder after this command. Do not move the folder. It must be placed in the same directory of `clique_desc_ranreg.json`.
 
 3. Now each subgraph has been refined, we need to integrate them together. Please ensure your MinkowskiEngine has been properly installed before this step.
 
-Downlaod FCGF model from [FCGF model zoo](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth) and put it to [FCGF](FCGF) dir. Rename it to `kitti_v0.3.pth`.
+Downlaod [FCGF model](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v0.3-ResUNetBN2C-conv1-5-nout32.pth) and put it to [./FCGF](FCGF) dir. Rename it to `kitti_v0.3.pth`.
 
 ```bash
 python clique_merge_refine.py --input_dir data/proc_pcd --clique_desc clique_desc_ranreg.json --feat_method FCGF
@@ -118,7 +118,7 @@ python reconstruction.py --input_dir data/proc_pcd --pose_graph ranreg_union.jso
 
 # Step 5: Hand-eye calibration
 
-Conduct hand-eye calibration among inliers.
+Conduct hand-eye calibration among inliers using [TL_solve.py](TL_solve.py).
 ```bash
 python TL_solve.py --camera_json /path/to/sfm_data.json --pcd_json /path/to/ranreg_union.json --save_sol res/work_dir/ranreg_sol.npz
 ```
