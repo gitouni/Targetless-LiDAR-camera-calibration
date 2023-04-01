@@ -8,7 +8,7 @@ import argparse
 from clique_utils import flatten_clique_list
 
 work_dir = "building_imu"
-method = "floam"
+method = "ranreg"
 def str2bool(c:str)->bool:
     if c.lower() == "true":
         return True
