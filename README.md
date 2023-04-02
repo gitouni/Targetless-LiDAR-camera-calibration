@@ -1,5 +1,7 @@
 # Targetless LiDAR camera calibration
-## Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR"
+## Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR". 
+
+
 ![](doc/Abstract.jpg)
 
 * preprint: [https://doi.org/10.36227/techrxiv.22155149](https://doi.org/10.36227/techrxiv.22155149)
@@ -19,6 +21,8 @@
 * [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
 * [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
 * [Sklearn](https://scikit-learn.org/stable/) (pip install scikit-learn)
+
+We are truely grateful to the authros of above open-sourced libraries.
 
 # Step 1: Prepare Image and LiDAR data
 
