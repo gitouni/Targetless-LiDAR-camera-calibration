@@ -26,14 +26,14 @@ We are truely grateful to the authros of above open-sourced libraries.
 
 # Step 1: Prepare Image and LiDAR data
 
-You need to add sychronized image and LiDAR data to the respective directories `./img` and `./pcd` first.
+You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first.
 ```bash
 mkdir data && cd data
 mkdir img
 mkdir pcd
 ```
 
-Use our cpp tools to preprocess LiDAR data. (Remove the backward 180 degrees of each LiDAR scan)
+Use our cpp tools to preprocess LiDAR data and save to `./data/proc_pcd`. (Remove the backward 180 degrees of each LiDAR scan)
 
 ```bash
 cd cpp
