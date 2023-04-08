@@ -7,6 +7,7 @@
 * Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[preprint](https://doi.org/10.36227/techrxiv.22155149)]
 * All advices, citations, support will be acknowledged and appreciated.
 * Feel free to propose any issues you met.
+* Thanks for citing our work if you use this code.
 
 # Environment
 * Ubuntu 18.04/20.04 or Windows 10
