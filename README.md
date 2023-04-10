@@ -24,9 +24,9 @@
 
 We are truely grateful to the authros of above open-sourced libraries.
 
-# Reprojection Comparison using Different Calibrations
+# Reprojection Comparison with Ground-Truth
 
-|Porposed Calibration|Checkboard Calibration|
+|Proposed Calibration|Checkboard Calibration|
 |---|---|
 |![](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/demo_Proposed_010.png) | ![](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/demo_GT_010.png)|
 
