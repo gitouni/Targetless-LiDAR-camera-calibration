@@ -24,6 +24,12 @@
 
 We are truely grateful to the authros of above open-sourced libraries.
 
+# Reprojection Comparison using Different Calibrations
+
+|Porposed Calibration|Checkboard Calibration|
+|---|---|
+|![](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/demo_Proposed_010.png) | ![](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/demo_GT_010.png)|
+
 # Step 1: Prepare Image and LiDAR data
 
 You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first.
@@ -141,11 +147,11 @@ This process densifies the reconstruction of SfM and generate a dense color poin
 
 After it finished, you should see `scene_dense.ply` and `scene_dense.mvs` in `path/to/reconstruction_sequential/`. You can also use `./Viewer /path/to/scene_dense.mvs` to check it.
 
-2. Scene Registration
+2. Scene Registration (SR)
 ```bash
 python Reg7D.py --camera_pcd /path/to/scene_dense.ply --lidar_pcd /path/to/ranreg_union.pcd --TL_init /path/to/TL_ranreg_sol.npz
 ```
 The [Reg7D.py](Reg7D.py) script aligns the camera reconstruction to the lidar one using the intial sim3 transformation solved from Step 5. You will get `ranreg_tcl.txt`, which is the final result of our method. The comparison before and after Scene Registration is shown below:
-|Before|After|
+|Before SR|After SR|
 |---|---|
 |![](doc/reg_HE_full.png)|![](doc/reg_7DOF.png)|
