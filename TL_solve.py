@@ -9,8 +9,7 @@ from clique_utils import flatten_clique_list
 import yaml
 
 global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
-work_dir = global_set['work_dir']
-method = global_set['method']
+
 
 def str2bool(c:str)->bool:
     if c.lower() == "true":
@@ -25,23 +24,27 @@ def skew(x:np.ndarray):
                      [-x[1],x[0],0]])
 
 
-EdgeMethod = dict(adjacent=poseToAdjedge,full=poseToFulledge)
+
 def options():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gt_TCL_file",type=str,default="res/{}/TCL_review2.txt".format(work_dir))
-    parser.add_argument("--camera_json",type=str,default="res/{}/sfm_data.json".format(work_dir))
-    parser.add_argument("--pcd_json",type=str,default="res/{}/{}_union.json".format(work_dir,method))
+    work_dir = global_set['work_dir']
+    method = global_set['method']
+    res_dir = global_set['res_dir']
+    parser.add_argument("--gt_TCL_file",type=str,default="{}/{}/TCL_review2.txt".format(res_dir, work_dir))
+    parser.add_argument("--camera_json",type=str,default="{}/{}/sfm_data.json".format(res_dir, work_dir))
+    parser.add_argument("--pcd_json",type=str,default="{}/{}/{}_union.json".format(res_dir, work_dir,method))
     parser.add_argument("--camera_graph_prune",type=str2bool,default=True)
     parser.add_argument("--pcd_graph_prune",type=str2bool,default=False)
     parser.add_argument("--edge_format",type=str,default='full',choices=['full','adjacent'])
     parser.add_argument("--use_clique",type=str2bool,default=True)
-    parser.add_argument("--clique_file",type=str,default="res/{}/clique_{}.json".format(work_dir,method))
-    parser.add_argument("--save_sol",type=str,default="res/{}/TL_{}_sol.npz".format(work_dir,method))
+    parser.add_argument("--clique_file",type=str,default="{}/{}/clique_{}.json".format(res_dir,work_dir,method))
+    parser.add_argument("--save_sol",type=str,default="{}/{}/TL_{}_sol.npz".format(res_dir,work_dir,method))
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = options()
     np.random.seed(0)
+    EdgeMethod = dict(adjacent=poseToAdjedge,full=poseToFulledge)  # map strings to functions
     camera_pose = read_camera_json(args.camera_json,toF0=True)
     pcd_pose = read_pcd_json(args.pcd_json)
     camera_pose, pcd_pose = map(lambda pose:np.array(pose),[camera_pose,pcd_pose])

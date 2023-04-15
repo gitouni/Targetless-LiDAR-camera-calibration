@@ -10,8 +10,7 @@ import time
 import yaml
 
 global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
-work_dir = global_set['work_dir']
-method = global_set['method']
+
 def change_background_to_black(vis):
     opt = vis.get_render_option()
     opt.background_color = np.asarray([0, 0, 0])
@@ -49,15 +48,18 @@ def str2bool(c:str)->bool:
     return False
 
 def input_args():
+    res_dir = global_set['res_dir']
+    work_dir = global_set['work_dir']
+    method = global_set['method']
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_dir",type=str,default='{work_dir}/pcd'.format(work_dir=work_dir))
     parser.add_argument("--step",type=int,default=1)
-    parser.add_argument("--pose_graph",type=str,default="res/{work_dir}/{method}_union.json".format(work_dir=work_dir,method=method))
+    parser.add_argument("--pose_graph",type=str,default="{res_dir}/{work_dir}/{method}_union.json".format(res_dir=res_dir,work_dir=work_dir,method=method))
     parser.add_argument("--trim_graph",type=bool,default=False,help="Set to True if this pose graph need to be trimmed")
-    parser.add_argument("--result",type=str,default='res/{work_dir}/{method}_union.pcd'.format(work_dir=work_dir,method=method))
+    parser.add_argument("--result",type=str,default='{res_dir}/{work_dir}/{method}_union.pcd'.format(res_dir=res_dir,work_dir=work_dir,method=method))
     parser.add_argument("--voxel_size",type=float,default=0.05)
     parser.add_argument("--trim",type=str2bool,default=True)
-    parser.add_argument("--clique_file",type=str,default='res/{work_dir}/clique_{method}.json'.format(work_dir=work_dir,method=method))
+    parser.add_argument("--clique_file",type=str,default='{res_dir}/{work_dir}/clique_{method}.json'.format(res_dir=res_dir,work_dir=work_dir,method=method))
     parser.add_argument("--outlier_idx",type=int,nargs="+",default=[])  # 16,47,116
     parser.add_argument("--part_index",nargs=2, type=int, default=[-1,-1])
     

@@ -10,21 +10,23 @@ from sklearn.cluster import DBSCAN
 import yaml
 
 global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
-work_dir = global_set['work_dir']
-method = global_set['method']
+
 
 def options():
+    res_dir = global_set['res_dir']
+    work_dir = global_set['work_dir']
+    method = global_set['method']
     parser = argparse.ArgumentParser()
-    parser.add_argument("--camera_json",type=str,default="res/{work_dir}/sfm_data.json".format(work_dir=work_dir))
-    parser.add_argument("--pcd_json",type=str,default="res/{work_dir}/{method}_raw.json".format(work_dir=work_dir,method=method))
+    parser.add_argument("--camera_json",type=str,default="{res_dir}/{work_dir}/sfm_data.json".format(res_dir=res_dir,work_dir=work_dir))
+    parser.add_argument("--pcd_json",type=str,default="{res_dir}/{work_dir}/{method}_raw.json".format(res_dir=res_dir,work_dir=work_dir,method=method))
     ransac_parser = parser.add_argument_group()
     ransac_parser.add_argument("--scale_threshold",type=float,default=0.15)  # floam for 0.25
     ransac_parser.add_argument("--max_iter",type=int,default=20000)
     ransac_parser.add_argument("--min_sample",type=int,default=3)
     ransac_parser.add_argument("--stop_prob",type=float,default=0.999)
     ransac_parser.add_argument("--se3_threshold",type=float,default=2.0)
-    ransac_parser.add_argument("--clique_save",type=str,default="res/{work_dir}/clique_{method}.json".format(work_dir=work_dir,method=method))
-    ransac_parser.add_argument("--sol_save",type=str,default="res/{work_dir}/TL_{method}_rsol".format(work_dir=work_dir,method=method))
+    ransac_parser.add_argument("--clique_save",type=str,default="{res_dir}/{work_dir}/clique_{method}.json".format(res_dir=res_dir,work_dir=work_dir,method=method))
+    ransac_parser.add_argument("--sol_save",type=str,default="{res_dir}/{work_dir}/TL_{method}_rsol".format(res_dir=res_dir,work_dir=work_dir,method=method))
     ransac_parser.add_argument("--seed",type=int,default=0) # 0
     return parser.parse_args()
 

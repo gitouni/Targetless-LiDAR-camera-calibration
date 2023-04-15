@@ -1,2 +1,3 @@
 work_dir: building_imu
+res_dir: res
 method: ranreg
