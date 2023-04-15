@@ -108,7 +108,7 @@ Please wait a few minutes. This process is the most time-consuming part of our f
 <details>
  <summary> Modification on other args</summary>
  
- * step: use 1 pcd file among every `step` files. Please change this argument carfully, as the pcd poses should keep consistent with the numebr of camera poses.
+ * step: use 1 pcd file per `step` files. Please change this argument carfully, as the pcd poses should keep consistent with the numebr of camera poses.
  * pose_graph: the name of the resultant PoseGraph. If you change this arg, please keep it constant in the following steps.
  * voxel_size: the downsampling voxel size. Smaller size leads to better registration performance as a pay for efficiency.
  * radius: radius to compute information matrix. A larger radius will consider a larger range of points into surface alignment.
