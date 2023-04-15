@@ -30,7 +30,7 @@ def options():
     work_dir = global_set['work_dir']
     method = global_set['method']
     res_dir = global_set['res_dir']
-    parser.add_argument("--gt_TCL_file",type=str,default="{}/{}/TCL_review2.txt".format(res_dir, work_dir))
+    parser.add_argument("--gt_TCL_file",type=str,default="{}/{}/TCL2.txt".format(res_dir, work_dir))
     parser.add_argument("--camera_json",type=str,default="{}/{}/sfm_data.json".format(res_dir, work_dir))
     parser.add_argument("--pcd_json",type=str,default="{}/{}/{}_union.json".format(res_dir, work_dir,method))
     parser.add_argument("--camera_graph_prune",type=str2bool,default=True)
