@@ -52,7 +52,7 @@ def input_args():
     work_dir = global_set['work_dir']
     method = global_set['method']
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_dir",type=str,default='{work_dir}/pcd'.format(work_dir=work_dir))
+    parser.add_argument("--input_dir",type=str,default='data/proc_pcd')
     parser.add_argument("--step",type=int,default=1)
     parser.add_argument("--pose_graph",type=str,default="{res_dir}/{work_dir}/{method}_union.json".format(res_dir=res_dir,work_dir=work_dir,method=method))
     parser.add_argument("--trim_graph",type=bool,default=False,help="Set to True if this pose graph need to be trimmed")

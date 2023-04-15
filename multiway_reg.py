@@ -14,7 +14,7 @@ def input_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--basedir",type=str,default=global_set['work_dir'])
     parser.add_argument("--res_dir",type=str,default=global_set['res_dir'])
-    parser.add_argument("--input_dir",type=str,default='pcd')
+    parser.add_argument("--input_dir",type=str,default='/data/proc_pcd')
     parser.add_argument("--step",type=int,default=1)
     parser.add_argument("--pose_graph",type=str,default='{}_raw.json'.format(global_set['method']))
     parser.add_argument("--voxel_size",type=float,default=0.15)

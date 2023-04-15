@@ -29,7 +29,7 @@ def input_args():
     input_parser = parser.add_argument_group()
     input_parser.add_argument("--work_dir",type=str,default=global_set['work_dir'])
     input_parser.add_argument("--res_dir",type=str,default=global_set['res_dir'])
-    input_parser.add_argument("--input_dir",type=str,default='pcd')
+    input_parser.add_argument("--input_dir",type=str,default='data/proc_pcd')
     input_parser.add_argument("--clique_file",type=str,default="clique_{}.json".format(global_set['method']))
     input_parser.add_argument("--init_pose_graph",type=str,default='{}_raw.json'.format(global_set['method']))
     input_parser.add_argument("--step",type=int,default=1)
