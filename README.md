@@ -99,11 +99,6 @@ python multiway_reg.py --input_dr data/proc_pcd
 ```
 After that, you will see `ranreg_raw.json` in `res_dir/work_dir`, which is a Open3D PoseGraph with initial estimated LiDAR poses.
 
-The above command will implement Multiway Registration using RANSAC. Here are some explanations to main args:
-* basedir: global paramter set in [config.yml](./config.yml)
-* res_dir: resultant directory containing a Open3D PoseGraph, default: 'res'
-* input_dir: directory containing all the preprocessed pcd files
-
 Please wait a few minutes. This process is the most time-consuming part of our framework.
 <details>
  <summary> Modification on other args</summary>
