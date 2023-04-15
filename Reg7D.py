@@ -8,8 +8,8 @@ import time
 from clique_utils import flatten_clique_list
 import argparse
 
-work_dir = "building_review2"
-method = "floam"
+work_dir = "building_imu"
+method = "ranreg"
 def input_args():
     parser = argparse.ArgumentParser()
     load_parser = parser.add_argument_group()
@@ -63,7 +63,6 @@ if __name__ == "__main__":
     t = np.array(camera_extran0['value']['center'])
     T[:3,:3] = R
     T[:3,3] = -R @ t
-    pcd_tran = np.loadtxt("res/building_review2/res_tmp.txt")
     pcd1.transform(T)
     ex_init = np.load(args.TL_init)
     extran0 = np.eye(4)
@@ -103,10 +102,6 @@ if __name__ == "__main__":
     s = np.sqrt(RS[0,0])
     res_tmp[:3,:3] /= s
     print('Scale:{}'.format(s))
-    np.savetxt(args.save_6dof,res_tmp)
+    np.savetxt(args.save_6dof,res_tmp)  # Transformation from camera to LiDAR
     print('Final transform:{}'.format(res_tmp))
-    # rpcd1.transform(T)
-    # rpcd1.scale(ex_init['scale'],[0,0,0])
-    # rpcd1.transform(np.linalg.inv(pcd_tran))
-    # rpcd1.paint_uniform_color([0,1.0,0])
     o3d.visualization.draw_geometries_with_key_callbacks([pcd1,pcd2],key_to_callback)
