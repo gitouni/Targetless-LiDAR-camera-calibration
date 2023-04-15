@@ -83,17 +83,26 @@ Please ensure your OpenMVG has been installed propoerly before this step. Sequen
 # Step 3: Estimate initial LiDAR poses with RANSAC (RANReg mentioned in our paper)
 
 Please ensure your Open3D has been installed properly in your python environment before this step.
-```bash
-python multiway_reg.py --basedir xxx --res_dir xxx --input_dr data/proc_pcd 
+
+First, set global name paramters in [config.yml](./config.yml):
+```yml
+work_dir: building_imu
+method: ranreg
 ```
-After that, you will see `ranreg_raw.json` in `res_dir/basedir`, which is a Open3D PoseGraph with initial estimated LiDAR poses.
+You can name it freely, as they are just basic names for creating files and directories, but **DO NOT** change them during the following steps.
+
+Then, run multiway_reg.py for initial point cloud registration.
+```bash
+python multiway_reg.py --input_dr data/proc_pcd 
+```
+After that, you will see `ranreg_raw.json` in `res_dir/work_dir`, which is a Open3D PoseGraph with initial estimated LiDAR poses.
 
 The above command will implement Multiway Registration using RANSAC. Here are some explanations to main args:
-* basedir: basic name of resultant directories, just name it as you wish
-* res_dir: resultant directory containing a Open3D PoseGraph
+* basedir: global paramter set in [config.yml](./config.yml)
+* res_dir: resultant directory containing a Open3D PoseGraph, default: 'res'
 * input_dir: directory containing all the preprocessed pcd files
 
-Please wait a few minutes. This process is the most time-consuming part in our framework.
+Please wait a few minutes. This process is the most time-consuming part of our framework.
 <details>
  <summary> Modification on other args</summary>
  
@@ -120,7 +129,7 @@ This process (Cluster Extraction) will genrate inlier LiDAR poses to `res/work_d
 ```bash
 python clique_split_refine.py --input_dir data/proc_pcd --clique_file /path/to/clique_ranreg.json --init_pose_graph ranreg_raw.json
 ```
-Keep the `basedir` varibale in [clique_split_refine.py](clique_split_refine.py) the same with `work_dir` variable in [TL_solve_ransac.py](TL_solve_ransac.py) to avoid possible issues. You will get `clique_desc_ranreg.json` and a `clique_ranreg` folder after this command. Do not move the folder. It must be placed in the same directory of `clique_desc_ranreg.json`.
+You will get `clique_desc_ranreg.json` and a `clique_ranreg` folder in the `res_dir/work_dir`, which is the same directory of `clique_desc_ranreg.json`.
 
 3. Now each subgraph has been refined, we need to integrate them together. Please ensure your MinkowskiEngine has been properly installed before this step.
 
