@@ -15,8 +15,8 @@ def options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--index",type=int,default=77)
     parser.add_argument("--extrinsic_file",type=str,default="ranreg_6dof.txt")
-    parser.add_argument("--img_dir",type=str,default="/data/img")
-    parser.add_argument("--pcd_dir",type=str,default="/data/proc_pcd")
+    parser.add_argument("--img_dir",type=str,default="./data/img")
+    parser.add_argument("--pcd_dir",type=str,default="./data/proc_pcd")
     return parser.parse_args()
 
 if __name__ == "__main__":
