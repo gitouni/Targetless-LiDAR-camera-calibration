@@ -4,7 +4,7 @@
 
 ![](doc/Abstract.jpg)
 
-* Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://doi.org/10.36227/techrxiv.22155149)]
+* Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://figshare.com/s/0b4cd10ff392b010e19c)]
 * All advices, citations, support will be acknowledged and appreciated.
 * Feel free to propose any issues you met.
 * Thanks for citing our work if you use this code.
@@ -20,7 +20,7 @@
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
 * [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
-* [Sklearn](https://scikit-learn.org/stable/) (pip install scikit-learn)
+* [scikit-learn](https://scikit-learn.org/stable/) (pip install scikit-learn)
 
 We are truely grateful to the authros of above open-sourced libraries.
 
