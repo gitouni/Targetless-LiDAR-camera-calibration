@@ -6,9 +6,12 @@ from problem import read_camera_json,read_pcd_json, poseToAdjedge, poseToFulledg
 from scipy.spatial.transform import Rotation
 import argparse
 from clique_utils import flatten_clique_list
+import yaml
 
-work_dir = "building_imu"
-method = "ranreg"
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+method = global_set['method']
+
 def str2bool(c:str)->bool:
     if c.lower() == "true":
         return True
@@ -28,21 +31,12 @@ def options():
     parser.add_argument("--gt_TCL_file",type=str,default="res/{}/TCL_review2.txt".format(work_dir))
     parser.add_argument("--camera_json",type=str,default="res/{}/sfm_data.json".format(work_dir))
     parser.add_argument("--pcd_json",type=str,default="res/{}/{}_union.json".format(work_dir,method))
-    parser.add_argument("--camera_graph_prune",type=bool,default=True)
-    parser.add_argument("--pcd_graph_prune",type=bool,default=False)
+    parser.add_argument("--camera_graph_prune",type=str2bool,default=True)
+    parser.add_argument("--pcd_graph_prune",type=str2bool,default=False)
     parser.add_argument("--edge_format",type=str,default='full',choices=['full','adjacent'])
     parser.add_argument("--use_clique",type=str2bool,default=True)
     parser.add_argument("--clique_file",type=str,default="res/{}/clique_{}.json".format(work_dir,method))
     parser.add_argument("--save_sol",type=str,default="res/{}/TL_{}_sol.npz".format(work_dir,method))
-    parser.add_argument("--max_rot",type=float,default=np.pi)
-    parser.add_argument("--proc_num",type=int,default=-1)
-    parser.add_argument("--proc_batch",type=int,default=100)
-    parser.add_argument("--disp",action='store_true',default=False)
-    parser.add_argument("--pso_pop",type=int,default=3000)
-    parser.add_argument("--pso_iter",type=int,default=25)
-    parser.add_argument("--pso_vratio",type=float,default=0.2)
-    parser.add_argument("--pso_eps",type=float,default=1e-8)
-    parser.add_argument("--noise_bnd",type=float,default=0.1)
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -72,29 +66,36 @@ if __name__ == "__main__":
     pcd_edge = edge_method(pcd_pose)
     camera_rotedge, pcd_rotedge = map(lambda edge_list:[T[:3,:3] for T in edge_list],[camera_edge,pcd_edge])
     TL_rotation, S, alpha, beta = TL_solve(camera_rotedge,pcd_rotedge)
-    Tr_exp = np.loadtxt(args.gt_TCL_file)
-    exp_rotation = Tr_exp[:3,:3]
     Loss = EdgeLoss(camera_edge,pcd_edge,np.eye(3))
-    exp_rotation_loss = Loss.rotation_loss(toVec(exp_rotation))
-    TL_rotation_loss = Loss.rotation_loss(toVec(TL_rotation))
-    print('Expected Rotation Loss:{}'.format(exp_rotation_loss))
-    print('TL Rotation Loss:{}'.format(TL_rotation_loss))
-    exp_tran, exp_scale = Loss.LSM(exp_rotation)
     TL_tran, TL_scale = Loss.LSM(TL_rotation)
-    print('Expected Translation:{}, Scale:{}'.format(exp_tran,exp_scale))
-    print('TL Translation:{}, Scale:{}'.format(TL_tran,TL_scale))
-    print('TL singular values:{}'.format(S))
-    print("TL rotation:{}".format(TL_rotation))
-    print("Exp rotation:{}".format(exp_rotation))
-    Rp = TL_rotation @ beta.T  # (3,N)
-    Rp_skew = np.array([skew(Rp[:,i]) for i in range(Rp.shape[1])])  # N of 3x3
-    Jacobian = np.zeros(3)
-    for i in range(3):
-        Jacobian[i] = np.sum(Rp * Rp_skew[:,:,i].T)
-    print("Jacobian:{}".format(Jacobian))
-    ErrorSO3 = np.linalg.inv(TL_rotation) @ exp_rotation
-    tlerror = TL_tran-exp_tran
-    rterror = Rotation.from_matrix(ErrorSO3).as_euler("XYZ",degrees=True)
-    print("Error Translation (m):{}, RMSE:{}".format(tlerror,np.sqrt((tlerror**2).sum()/3)))
-    print("Error Rotation (degree):{}, RMSE:{}".format(rterror, np.sqrt((rterror**2).sum()/3)))
+    if not os.path.exists(args.gt_TCL_file):
+        print("\033[33;1mGround-truth Calibration is not found. Skip evaluation steps.\033[0m")
+        print('TL Translation:{}, Scale:{}'.format(TL_tran,TL_scale))
+        print('TL singular values:{}'.format(S))
+        print("TL rotation:{}".format(TL_rotation))
+    else:
+        Tr_exp = np.loadtxt(args.gt_TCL_file)
+        assert(Tr_exp.shape[0]==4 and Tr_exp.shape[1] == 4), "Wrong shape of ground-truth shape:{}, must be 4x4".format(Tr_exp.shape)
+        exp_rotation = Tr_exp[:3,:3]
+        exp_rotation_loss = Loss.rotation_loss(toVec(exp_rotation))
+        TL_rotation_loss = Loss.rotation_loss(toVec(TL_rotation))
+        print('Expected Rotation Loss:{}'.format(exp_rotation_loss))
+        print('TL Rotation Loss:{}'.format(TL_rotation_loss))
+        exp_tran, exp_scale = Loss.LSM(exp_rotation)
+        print('Expected Translation:{}, Scale:{}'.format(exp_tran,exp_scale))
+        print('TL Translation:{}, Scale:{}'.format(TL_tran,TL_scale))
+        print('TL singular values:{}'.format(S))
+        print("TL rotation:{}".format(TL_rotation))
+        print("Exp rotation:{}".format(exp_rotation))
+        Rp = TL_rotation @ beta.T  # (3,N)
+        Rp_skew = np.array([skew(Rp[:,i]) for i in range(Rp.shape[1])])  # N of 3x3
+        Jacobian = np.zeros(3)
+        for i in range(3):
+            Jacobian[i] = np.sum(Rp * Rp_skew[:,:,i].T)
+        print("Jacobian:{}".format(Jacobian))
+        ErrorSO3 = np.linalg.inv(TL_rotation) @ exp_rotation
+        tlerror = TL_tran-exp_tran
+        rterror = Rotation.from_matrix(ErrorSO3).as_euler("XYZ",degrees=True)
+        print("Error Translation (m):{}, RMSE:{}".format(tlerror,np.sqrt((tlerror**2).sum()/3)))
+        print("Error Rotation (degree):{}, RMSE:{}".format(rterror, np.sqrt((rterror**2).sum()/3)))
     np.savez(args.save_sol,rotation=TL_rotation,translation=TL_tran,scale=TL_scale)

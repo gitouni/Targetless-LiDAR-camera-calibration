@@ -14,16 +14,19 @@ import json
 from clique_utils import merge_pcd
 from view.view_normal import Surface_TNormal
 from FCGF.fcgf_utils import FCGF_Extractor
-basedir = "building_imu"
-method = "ranreg"
+import yaml
+
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+LO_method = global_set['method']
 
 def input_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--basedir",type=str,default=basedir)
+    parser.add_argument("--work_dir",type=str,default=work_dir)
     parser.add_argument("--res_dir",type=str,default="res")
     parser.add_argument("--input_dir",type=str,default='pcd')
-    parser.add_argument("--clique_desc",type=str,default="clique_desc_{}.json".format(method))
-    parser.add_argument("--pose_graph",type=str,default="{}_union.json".format(method))
+    parser.add_argument("--clique_desc",type=str,default="clique_desc_{}.json".format(LO_method))
+    parser.add_argument("--pose_graph",type=str,default="{}_union.json".format(LO_method))
     parser.add_argument("--step",type=int,default=1)
     parser.add_argument("--voxel_size",type=float,default=0.15)
     parser.add_argument("--radius",type=float,default=0.3)
@@ -32,9 +35,9 @@ def input_args():
     parser.add_argument("--feat_method",type=str,default='FCGF',choices=['FPFH','FCGF'])
     parser.add_argument("--method",type=str,default="RANSAC",choices=['ICP','FGR','RANSAC',"SOPT"])
     args = parser.parse_args()
-    work_dir = os.path.join(args.res_dir,args.basedir)
+    work_dir = os.path.join(args.res_dir,args.work_dir)
     os.makedirs(work_dir,exist_ok=True)
-    args.input_dir = os.path.join(args.basedir,args.input_dir)
+    args.input_dir = os.path.join(args.work_dir,args.input_dir)
     args.clique_desc = os.path.join(work_dir,args.clique_desc)
     args.pose_graph = os.path.join(work_dir,args.pose_graph)
     return args

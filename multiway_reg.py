@@ -6,16 +6,21 @@ from ransac import register_with_feature as ransac_register
 import numpy as np 
 from tqdm import tqdm
 from view.view_normal import Surface_TNormal
+import yaml
+
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+LO_method = global_set['method']
 
 
 
 def input_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--basedir",type=str,default='building_imu')
+    parser.add_argument("--basedir",type=str,default=work_dir)
     parser.add_argument("--res_dir",type=str,default="res")
-    parser.add_argument("--input_dir",type=str,default='proc_pcd')
+    parser.add_argument("--input_dir",type=str,default='pcd')
     parser.add_argument("--step",type=int,default=1)
-    parser.add_argument("--pose_graph",type=str,default='ranreg_raw.json')
+    parser.add_argument("--pose_graph",type=str,default='{}_raw.json'.format(LO_method))
     parser.add_argument("--voxel_size",type=float,default=0.15)
     parser.add_argument("--radius",type=float,default=0.3)
     parser.add_argument("--knn_num",type=int,default=30)

@@ -7,8 +7,12 @@ from problem import read_camera_json,read_pcd_json,fullEdge_Idx
 import argparse
 from matplotlib import pyplot as plt
 from sklearn.cluster import DBSCAN
-work_dir = "building_imu"
-method = "ranreg"
+import yaml
+
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+method = global_set['method']
+
 def options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--camera_json",type=str,default="res/{work_dir}/sfm_data.json".format(work_dir=work_dir))

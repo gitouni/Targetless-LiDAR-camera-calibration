@@ -7,9 +7,11 @@ import json
 from clique_utils import pose_graph_trim
 from copy import deepcopy
 import shutil
+import yaml
 
-basedir= "building_imu"
-method = "ranreg"
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+method = global_set['method']
 
 def print_info(info,**argv):
     print("\033[1;34m{:s}\033[0m".format(info),**argv)
@@ -26,7 +28,7 @@ def print_error(info,**argv):
 def input_args():
     parser = argparse.ArgumentParser()
     input_parser = parser.add_argument_group()
-    input_parser.add_argument("--basedir",type=str,default=basedir)
+    input_parser.add_argument("--work_dir",type=str,default=work_dir)
     input_parser.add_argument("--res_dir",type=str,default="res")
     input_parser.add_argument("--input_dir",type=str,default='pcd')
     input_parser.add_argument("--clique_file",type=str,default="clique_{}.json".format(method))
@@ -41,9 +43,9 @@ def input_args():
     output_parser.add_argument("--radius",type=float,default=0.6)  # 1.0 for floam
     
     args = parser.parse_args()
-    work_dir = os.path.join(args.res_dir,args.basedir)
+    work_dir = os.path.join(args.res_dir,args.work_dir)
     os.makedirs(work_dir,exist_ok=True)
-    args.input_dir = os.path.join(args.basedir,args.input_dir)
+    args.input_dir = os.path.join(args.work_dir,args.input_dir)
     args.init_pose_graph, args.clique_file, args.pose_graph_dir, args.clique_desc \
         = map(lambda file: os.path.join(work_dir,file),[args.init_pose_graph, args.clique_file, args.pose_graph_dir,args.clique_desc])
     return args
