@@ -7,9 +7,11 @@ from clique_utils import pose_graph_trim, flatten_clique_list
 from matplotlib import pyplot as plt
 from matplotlib.cm import get_cmap
 import time
-# from clique_utils import flatten_clique_list
-work_dir = "building_imu"
-method = "ranreg"
+import yaml
+
+global_set = yaml.load(open("config.yml",'r'),yaml.SafeLoader)
+work_dir = global_set['work_dir']
+method = global_set['method']
 def change_background_to_black(vis):
     opt = vis.get_render_option()
     opt.background_color = np.asarray([0, 0, 0])
