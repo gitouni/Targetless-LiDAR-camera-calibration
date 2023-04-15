@@ -5,7 +5,7 @@
 ![](doc/Abstract.jpg)
 
 * Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://figshare.com/s/0b4cd10ff392b010e19c)]
-* data: Our data is available for reproduction [pre_data.7z](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z)
+* Data: Our [data](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z) is now available for reproduction.
 * All advices, citations, support will be acknowledged and appreciated.
 * Feel free to propose any issues you met.
 * Thanks for citing our work:
@@ -46,7 +46,7 @@ We are truely grateful to the authros of above open-sourced libraries.
 
 # Step 1: Prepare Image and LiDAR data
 
-You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first. If you do not have your own data currently, please feel free to download our [data]([pre_data.7z](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z)) for testing.
+You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first. If you do not have your own data currently, please feel free to download our [data](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z) for testing.
 
 ```bash
 mkdir data && cd data
