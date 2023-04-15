@@ -5,7 +5,7 @@
 ![](doc/Abstract.jpg)
 
 * Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://figshare.com/s/0b4cd10ff392b010e19c)]
-* data: Download our data and put it into `data` dir for reproduction [pre_data.7z](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z)
+* data: Our data is available for reproduction [pre_data.7z](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z)
 * All advices, citations, support will be acknowledged and appreciated.
 * Feel free to propose any issues you met.
 * Thanks for citing our work:
