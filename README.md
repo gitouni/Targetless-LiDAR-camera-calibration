@@ -85,8 +85,10 @@ Please ensure your OpenMVG has been installed propoerly before this step. Sequen
 Please ensure your Open3D has been installed properly in your python environment before this step.
 
 First, set global name paramters in [config.yml](./config.yml):
+
 ```yml
 work_dir: building_imu
+res_dir: res
 method: ranreg
 ```
 You can name it freely, as they are just basic names for creating files and directories, but **DO NOT** change them during the following steps.
@@ -138,14 +140,14 @@ Downlaod [FCGF model](https://node1.chrischoy.org/data/publications/fcgf/KITTI-v
 ```bash
 python clique_merge_refine.py --input_dir data/proc_pcd --clique_desc clique_desc_ranreg.json --feat_method FCGF
 ```
-This process (Clique Integration) consolidate each subgraph into one. Don't forget to ensure the `basedir` and `method` variables be same with the above files. The resultant figure is:
+This process (Clique Integration) consolidate each subgraph into one. The resultant figure:
 
 <img src="https://github.com/gitouni/Targetless-LiDAR-camera-calibration/blob/main/doc/recon_final_graph.png" width="600">
 
-Meanwhile, you will get `ranreg_union.json`. Use [reconstruction.py](reconstruction.py) to view it in Open3D Viewer and generate `ranreg_union.pcd`, the merged point cloud from inlier laser scans. 
+Meanwhile, you will get `ranreg_union.json` in `res_dir/work_dir`. Use [reconstruction.py](reconstruction.py) to view it in Open3D Viewer and generate `ranreg_union.pcd`, the merged point cloud from inlier laser scans. 
 
 ```bash
-python reconstruction.py --input_dir data/proc_pcd --pose_graph ranreg_union.json --clique_file res/work_dir/clique_ranreg.json
+python reconstruction.py --input_dir data/proc_pcd --pose_graph ranreg_union.json --clique_file <res_dir>/<work_dir>/clique_ranreg.json
 ```
 
 # Step 5: Hand-eye calibration
