@@ -41,7 +41,9 @@ class RotEstimator(BaseEstimator,RegressorMixin):
         return np.array([toVec(mat) for mat in mat_list])
     
     def fit(self,beta:np.ndarray,alpha:np.ndarray):
-        H = np.dot(beta.T,alpha)
+        beta_:np.ndarray = beta - beta.mean(axis=0,keepdims=True)
+        alpha_ :np.ndarray = alpha - alpha.mean(axis=0, keepdims=True)
+        H = np.dot(beta_.T,alpha_)
         U, _ ,Vt = np.linalg.svd(H)
         R = np.dot(Vt.T,U.T)
         if np.linalg.det(R) < 0:
