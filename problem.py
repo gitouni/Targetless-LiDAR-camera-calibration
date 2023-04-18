@@ -152,6 +152,8 @@ def TL_solve(camera_edge,pcd_edge):
         pvec = toVec(pedge)
         alpha[i,:] = cvec
         beta[i,:] = pvec
+    alpha -= alpha.mean(axis=0,keepdims=True)
+    beta -= beta.mean(axis=0,keepdims=True)
     H = np.dot(beta.T,alpha)  # (3,3)
     U, S, Vt = np.linalg.svd(H)  
     R = np.dot(Vt.T, U.T)     
