@@ -47,7 +47,7 @@ We are truely grateful to the authros of above open-sourced libraries.
 You can use [view_projection.py](./view_projection.py) and our data to generate similar figures.
 # Step 1: Prepare Image and LiDAR data
 
-You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first. If you do not have your own data currently, please feel free to download our [data](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z) for testing.
+You need to add sychronized image and LiDAR data to the respective directories `./data/img` and `./data/pcd` first. If you do not have your own data currently, please feel free to download our [data](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z) for testing. It is recommended to capture images around one object (such as a building) for the sake of SFM performance.
 
 ```bash
 mkdir data && cd data
