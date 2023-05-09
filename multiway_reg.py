@@ -19,6 +19,7 @@ def input_args():
     parser.add_argument("--pose_graph",type=str,default='{}_raw.json'.format(global_set['method']))
     parser.add_argument("--voxel_size",type=float,default=0.15)
     parser.add_argument("--radius",type=float,default=0.3)
+    parser.add_argument("--edge_prune_threshold",type=float,default=0.25)
     parser.add_argument("--knn_num",type=int,default=30)
     parser.add_argument("--ne_method",type=str,default="defined",choices=['o3d','defined'])
     parser.add_argument("--feat_method",type=str,default='FPFH',choices=['FPFH'])
@@ -218,7 +219,7 @@ if __name__ == "__main__":
     print_highlight("Optimizing PoseGraph ...")
     option = o3d.pipelines.registration.GlobalOptimizationOption(
         max_correspondence_distance=2*args.radius,
-        edge_prune_threshold=5*args.radius,
+        edge_prune_threshold=args.edge_prune_threshold,
         reference_node=0)
     with o3d.utility.VerbosityContextManager(
         o3d.utility.VerbosityLevel.Debug) as cm:
