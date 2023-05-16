@@ -40,6 +40,7 @@ def input_args():
     output_parser.add_argument("--pose_graph_fmt",type=str,default='clique_{:02d}.json')
     output_parser.add_argument("--voxel_size",type=float,default=0.05)
     output_parser.add_argument("--radius",type=float,default=0.6)  # 1.0 for floam
+    output_parser.add_argument("--edge_thres",type=float,default=0.25)
     
     args = parser.parse_args()
     work_dir = os.path.join(args.res_dir,args.work_dir)
@@ -129,7 +130,7 @@ if __name__ == "__main__":
         print("Optimizing PoseGraph ...")
         option = o3d.pipelines.registration.GlobalOptimizationOption(
             max_correspondence_distance=args.radius,
-            edge_prune_threshold=5*args.radius,
+            edge_prune_threshold=args.edge_thres,
             reference_node=0)
         with o3d.utility.VerbosityContextManager(
             o3d.utility.VerbosityLevel.Debug) as cm:
