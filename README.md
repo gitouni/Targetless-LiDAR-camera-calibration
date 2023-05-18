@@ -1,10 +1,10 @@
 # Targetless LiDAR camera calibration
-## Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR". 
+## Official Implementation of the paper "Targetless Extrinsic Calibration of Camera and Low-resolution 3-D LiDAR". 
 
 
 ![](doc/Abstract.jpg)
 
-* Paper: [[IEEE Early Access](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://figshare.com/s/0b4cd10ff392b010e19c)]
+* Paper: [[IEEE](https://ieeexplore.ieee.org/document/10097551)]|[[TechRxiv](https://figshare.com/s/0b4cd10ff392b010e19c)]
 * Data: Our [data](https://github.com/gitouni/Targetless-LiDAR-camera-calibration/releases/download/data/pre_data.7z) is now available for reproduction.
 * All advices, citations, support will be acknowledged and appreciated.
 * Feel free to propose any issues you met.
