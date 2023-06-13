@@ -14,11 +14,11 @@
 @ARTICLE{10097551,
   author={Ou, Ni and Cai, Hanyu and Yang, Jiawen and Wang, Junzheng},
   journal={IEEE Sensors Journal}, 
-  title={Targetless Extrinsic Calibration of Camera and Low-resolution 3D LiDAR}, 
+  title={Targetless Extrinsic Calibration of Camera and Low-Resolution 3-D LiDAR}, 
   year={2023},
-  volume={},
-  number={},
-  pages={1-1},
+  volume={23},
+  number={10},
+  pages={10889-10899},
   doi={10.1109/JSEN.2023.3263833}}
 
 ```
