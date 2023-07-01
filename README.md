@@ -30,12 +30,14 @@
 * cmake 3.1.0 or later
 
 # Dependence
-* [OpenMVG](https://github.com/openMVG/openMVG) ([BUILD.md](https://github.com/openMVG/openMVG/blob/develop/BUILD.md))
+* [OpenMVG](https://github.com/openMVG/openMVG)
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
 * [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
 * [scikit-learn](https://scikit-learn.org/stable/) (pip install scikit-learn)
-
+<details>
+  <summary>how to install OpenMVG</summary> Install OpenMVG according to https://github.com/openMVG/openMVG/blob/develop/BUILD.md. Remember to use `-DOpenMVG_USE_OPENMP=ON` flags for camke. (if you have OpenMP)
+</details>
 We are truely grateful to the authros of above open-sourced libraries.
 
 # Reprojection Comparison with Ground-Truth
