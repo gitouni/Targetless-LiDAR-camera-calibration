@@ -30,7 +30,7 @@
 * cmake 3.1.0 or later
 
 # Dependence
-* [OpenMVG](https://github.com/openMVG/openMVG)
+* [OpenMVG](https://github.com/openMVG/openMVG) ([BUILD.md](https://github.com/openMVG/openMVG/blob/develop/BUILD.md))
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
 * [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
