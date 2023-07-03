@@ -100,7 +100,7 @@ You can name it freely, as they are just basic names for creating files and dire
 
 Then, run multiway_reg.py for initial point cloud registration.
 ```bash
-python multiway_reg.py --input_dr data/proc_pcd 
+python multiway_reg.py --input_dir data/proc_pcd 
 ```
 After that, you will see `ranreg_raw.json` in `res_dir/work_dir`, which is a Open3D PoseGraph with initial estimated LiDAR poses.
 
