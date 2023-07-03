@@ -33,7 +33,7 @@
 * [OpenMVG](https://github.com/openMVG/openMVG)
 * [OpenMVS](https://github.com/cdcseacave/openMVS)
 * [MinkowskiEngine](https://github.com/NVIDIA/MinkowskiEngine#installation)
-* [Open3D](https://github.com/isl-org/Open3D) (pip install open3d)
+* [Open3D](https://github.com/isl-org/Open3D) (pip install open3d) (0.15.2) 
 * [scikit-learn](https://scikit-learn.org/stable/) (pip install scikit-learn)
 <details>
   <summary>how to install OpenMVG</summary> Install OpenMVG according to https://github.com/openMVG/openMVG/blob/develop/BUILD.md. Remember to use `-DOpenMVG_USE_OPENMP=ON` flags for camke. (if you have OpenMP)
